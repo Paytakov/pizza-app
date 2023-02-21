@@ -1,6 +1,5 @@
 package com.example.pizzaapp.model;
 
-import com.example.pizzaapp.model.enums.DoughType;
 import com.example.pizzaapp.model.enums.Type;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,9 +20,7 @@ public class Ingredient {
     private String name;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private DoughType doughType;
-
+    private String doughType;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -47,21 +44,21 @@ public class Ingredient {
         return this;
     }
 
-    public DoughType getDoughType() {
-        return doughType;
-    }
-
-    public Ingredient setDoughType(DoughType doughType) {
-        this.doughType = doughType;
-        return this;
-    }
-
     public Type getType() {
         return type;
     }
 
     public Ingredient setType(Type type) {
         this.type = type;
+        return this;
+    }
+
+    public String getDoughType() {
+        return doughType;
+    }
+
+    public Ingredient setDoughType(String doughType) {
+        this.doughType = doughType;
         return this;
     }
 
