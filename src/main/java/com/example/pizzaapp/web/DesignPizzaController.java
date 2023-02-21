@@ -3,6 +3,7 @@ package com.example.pizzaapp.web;
 import com.example.pizzaapp.model.Ingredient;
 import com.example.pizzaapp.model.Order;
 import com.example.pizzaapp.model.Pizza;
+import com.example.pizzaapp.model.dto.OrderDto;
 import com.example.pizzaapp.model.dto.PizzaDto;
 import com.example.pizzaapp.model.enums.Type;
 import com.example.pizzaapp.service.IngredientService;
@@ -35,12 +36,12 @@ public class DesignPizzaController {
     }
 
     @ModelAttribute(name = "order")
-    public Order order() {
-        return new Order();
+    public OrderDto order() {
+        return new OrderDto();
     }
     @ModelAttribute(name = "pizza")
-    public Pizza taco() {
-        return new Pizza();
+    public PizzaDto taco() {
+        return new PizzaDto();
     }
 
     @GetMapping()
@@ -62,7 +63,7 @@ public class DesignPizzaController {
     @PostMapping
     public String processDesign(@Valid PizzaDto design,
                                 Errors errors,
-                                @ModelAttribute Order order) {
+                                @ModelAttribute OrderDto order) {
         if (errors.hasErrors()) {
             return "design-taco";
         }

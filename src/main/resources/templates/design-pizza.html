@@ -9,13 +9,13 @@
 </head>
 <body>
     <h1>Design your pizza!</h1>
-    <img th:src="@{/images/TacoCloud.png}" class="logo"/>
+    <img th:src="@{/images/PizzaShop.png}" class="logo"/>
 
     <form method="POST" th:object="${design}">
         <div class="grid">
             <div class="ingredient-group" id="wraps">
-                <h3>Designate your wrap:</h3>
-                <div th:each="ingredient : ${wrap}">
+                <h3>Designate your dough:</h3>
+                <div th:each="ingredient : ${dough}">
                     <input name="ingredients" type="checkbox" th:value="${ingredient.id}"
                     />
                     <span th:text="${ingredient.name}">INGREDIENT</span><br/>
@@ -53,15 +53,31 @@
                     <span th:text="${ingredient.name}">INGREDIENT</span><br/>
                 </div>
             </div>
+            <div class="ingredient-group" id="meat">
+                <h3>Select your meat:</h3>
+                <div th:each="ingredient : ${meat}">
+                    <input name="ingredients" type="checkbox" th:value="${ingredient.id}"
+                    />
+                    <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+                </div>
+            </div>
+            <div class="ingredient-group" id="spices">
+                <h3>Select your spices:</h3>
+                <div th:each="ingredient : ${spices}">
+                    <input name="ingredients" type="checkbox" th:value="${ingredient.id}"
+                    />
+                    <span th:text="${ingredient.name}">INGREDIENT</span><br/>
+                </div>
+            </div>
         </div>
         <div>
-            <h3>Name your taco creation:</h3>
+            <h3>Name your pizza creation:</h3>
             <input type="text" th:field="*{name}"/>
             <span class="validationError"
                   th:if="${#fields.hasErrors('name')}"
                   th:errors="*{name}">Name Error</span>
             <br/>
-            <button>Submit your taco</button>
+            <button>Submit your pizza</button>
 
             <form method="POST" th:action="@{/logout}">
                 <input type="submit" value="Logout"/>

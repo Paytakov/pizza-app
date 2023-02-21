@@ -20,11 +20,15 @@ public class Ingredient {
     private String name;
 
     @Column(nullable = false)
-    private String doughType;
-
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
+
+    public Ingredient() {}
+
+    public Ingredient(String name, Type type) {
+        this.name = name;
+        this.type = type;
+    }
 
     public Long getId() {
         return id;
@@ -53,22 +57,4 @@ public class Ingredient {
         return this;
     }
 
-    public String getDoughType() {
-        return doughType;
-    }
-
-    public Ingredient setDoughType(String doughType) {
-        this.doughType = doughType;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "Ingredient{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", doughType=" + doughType +
-                ", type=" + type +
-                '}';
-    }
 }

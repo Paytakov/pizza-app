@@ -1,78 +1,69 @@
-package com.example.pizzaapp.model;
+package com.example.pizzaapp.model.dto;
 
+import com.example.pizzaapp.model.Pizza;
+import com.example.pizzaapp.model.User;
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.CreditCardNumber;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "orders")
-public class Order {
+public class OrderDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+    @NotBlank(message = "Name is required")
     private String name;
-
-    @Column(nullable = false)
+    @NotBlank(message = "Street is required")
     private String street;
-
-    @Column(nullable = false)
+    @NotBlank(message = "City is required")
     private String city;
-
-    @Column(nullable = false)
+    @NotBlank(message = "State is required")
     private String state;
-
-    @Column(nullable = false)
+    @NotBlank(message = "Zip code is required")
     private String zip;
-
-    @Column(nullable = false)
+    @CreditCardNumber(message = "Not a valid credit card number")
     private String ccNumber;
-
-    @Column(nullable = false)
+    @Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
+            message = "Must be formatted MM/YY")
     private String ccExpiration;
-
-    @Column(nullable = false)
+    @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
     private Date placedAt;
 
-    @ManyToMany
     private List<Pizza> pizzas = new ArrayList<>();
-
-    @ManyToOne
     private User user;
+
+    public void addDesign(Pizza design) {
+        this.pizzas.add(design);
+    }
 
     @PrePersist
     void placedAt() {
         this.placedAt = new Date();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Order setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
     public String getName() {
         return name;
     }
 
-    public Order setName(String name) {
+    public OrderDto setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public OrderDto setUser(User user) {
+        this.user = user;
         return this;
     }
 
@@ -80,7 +71,7 @@ public class Order {
         return street;
     }
 
-    public Order setStreet(String street) {
+    public OrderDto setStreet(String street) {
         this.street = street;
         return this;
     }
@@ -89,7 +80,7 @@ public class Order {
         return city;
     }
 
-    public Order setCity(String city) {
+    public OrderDto setCity(String city) {
         this.city = city;
         return this;
     }
@@ -98,7 +89,7 @@ public class Order {
         return state;
     }
 
-    public Order setState(String state) {
+    public OrderDto setState(String state) {
         this.state = state;
         return this;
     }
@@ -107,7 +98,7 @@ public class Order {
         return zip;
     }
 
-    public Order setZip(String zip) {
+    public OrderDto setZip(String zip) {
         this.zip = zip;
         return this;
     }
@@ -116,7 +107,7 @@ public class Order {
         return ccNumber;
     }
 
-    public Order setCcNumber(String ccNumber) {
+    public OrderDto setCcNumber(String ccNumber) {
         this.ccNumber = ccNumber;
         return this;
     }
@@ -125,7 +116,7 @@ public class Order {
         return ccExpiration;
     }
 
-    public Order setCcExpiration(String ccExpiration) {
+    public OrderDto setCcExpiration(String ccExpiration) {
         this.ccExpiration = ccExpiration;
         return this;
     }
@@ -134,7 +125,7 @@ public class Order {
         return ccCVV;
     }
 
-    public Order setCcCVV(String ccCVV) {
+    public OrderDto setCcCVV(String ccCVV) {
         this.ccCVV = ccCVV;
         return this;
     }
@@ -143,17 +134,8 @@ public class Order {
         return placedAt;
     }
 
-    public Order setPlacedAt(Date placedAt) {
+    public OrderDto setPlacedAt(Date placedAt) {
         this.placedAt = placedAt;
-        return this;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Order setUser(User user) {
-        this.user = user;
         return this;
     }
 
@@ -161,7 +143,7 @@ public class Order {
         return pizzas;
     }
 
-    public Order setPizzas(List<Pizza> pizzas) {
+    public OrderDto setPizzas(List<Pizza> pizzas) {
         this.pizzas = pizzas;
         return this;
     }
