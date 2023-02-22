@@ -14,7 +14,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
 
         String pepper = "pepper"; // secret key used by password encoding
-        int iterations = 200000;  // number of hash iteration
+        int iterations = 200;  // number of hash iteration
         int hashWidth = 256;
         return new Pbkdf2PasswordEncoder(
                 pepper,
@@ -26,8 +26,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/design", "/orders")
-                .hasRole("ROLE_USER")
+                .requestMatchers("/design", "/orders/**")
+                .permitAll()
+                //.hasRole("ROLE_USER")
                 .requestMatchers("/", "/**")
                 .permitAll()
            .and()

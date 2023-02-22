@@ -1,5 +1,6 @@
 package com.example.pizzaapp.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,8 @@ public class User implements UserDetails {
     private Long id;
 
     private String username;
+
+    @Column(length = 1200)
     private String password;
     private String fullname;
     private String street;

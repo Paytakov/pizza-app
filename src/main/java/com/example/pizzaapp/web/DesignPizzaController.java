@@ -65,7 +65,7 @@ public class DesignPizzaController {
                                 Errors errors,
                                 @ModelAttribute OrderDto order) {
         if (errors.hasErrors()) {
-            return "design-taco";
+            return "design-pizza";
         }
 
         Pizza saved = pizzaService.createPizza(design);

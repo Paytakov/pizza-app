@@ -11,7 +11,10 @@
     <h1>Design your pizza!</h1>
     <img th:src="@{/images/PizzaShop.png}" class="logo"/>
 
-    <form method="POST" th:object="${design}">
+    <form th:method="POST"
+          th:object="${design}"
+          th:action="@{/design}"
+          id="pizzaForm">
         <div class="grid">
             <div class="ingredient-group" id="wraps">
                 <h3>Designate your dough:</h3>
