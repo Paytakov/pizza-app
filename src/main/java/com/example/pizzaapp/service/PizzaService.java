@@ -19,6 +19,7 @@ public class PizzaService {
     }
 
     public Pizza createPizza(PizzaDto dto) {
-        return mapper.map(dto, Pizza.class);
+        return pizzaRepository.save(
+                mapper.map(dto, Pizza.class));
     }
 }

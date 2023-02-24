@@ -23,7 +23,8 @@ public class OrderService {
     }
 
     public Order createOrder(OrderDto orderDto) {
-        return mapper.map(orderDto, Order.class);
+        return orderRepository.save(
+                mapper.map(orderDto, Order.class));
     }
 
     public List<Order> getByUserOrderByPlacedAtDesc(User user, Pageable pageable) {

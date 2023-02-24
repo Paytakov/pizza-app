@@ -37,10 +37,10 @@ public class OrderDto {
 
     private Date placedAt;
 
-    private List<Pizza> pizzas = new ArrayList<>();
+    private List<PizzaDto> pizzas = new ArrayList<>();
     private User user;
 
-    public void addDesign(Pizza design) {
+    public void addDesign(PizzaDto design) {
         this.pizzas.add(design);
     }
 
@@ -139,11 +139,11 @@ public class OrderDto {
         return this;
     }
 
-    public List<Pizza> getPizzas() {
+    public List<PizzaDto> getPizzas() {
         return pizzas;
     }
 
-    public OrderDto setPizzas(List<Pizza> pizzas) {
+    public OrderDto setPizzas(List<PizzaDto> pizzas) {
         this.pizzas = pizzas;
         return this;
     }

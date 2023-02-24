@@ -2,7 +2,7 @@ package com.example.pizzaapp.web;
 
 import com.example.pizzaapp.model.Order;
 import com.example.pizzaapp.model.User;
-import com.example.pizzaapp.model.dto.OrderDto;
+import com.example.pizzaapp.repository.OrderRepository;
 import com.example.pizzaapp.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -24,22 +24,22 @@ import org.springframework.web.bind.support.SessionStatus;
 @RequestMapping("/orders")
 public class OrderController {
 
-    private final OrderService orderService;
     private final OrderProps orderProps;
+    private final OrderRepository orderRepo;
 
-    public OrderController(OrderService orderService, OrderProps orderProps) {
-        this.orderService = orderService;
+    public OrderController(OrderProps orderProps, OrderRepository orderRepo) {
         this.orderProps = orderProps;
+        this.orderRepo = orderRepo;
     }
 
     @GetMapping("/current")
     public String orderForm(Model model) {
-        model.addAttribute("order", new OrderDto());
+        model.addAttribute("order", new Order());
         return "order";
     }
 
     @PostMapping
-    public String processOrder(@Valid OrderDto orderDto,
+    public String processOrder(@Valid Order order,
                                Errors errors,
                                SessionStatus sessionStatus,
                                @AuthenticationPrincipal User user) {
@@ -47,8 +47,8 @@ public class OrderController {
             return "order";
         }
 
-        orderDto.setUser(user);
-        orderService.createOrder(orderDto);
+        order.setUser(user);
+        orderRepo.save(order);
         sessionStatus.setComplete();
         return "redirect:/";
     }
@@ -60,7 +60,7 @@ public class OrderController {
 
         Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
         model.addAttribute("orders",
-                orderService.getByUserOrderByPlacedAtDesc(user, pageable));
+                orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
 
         return "orderList";
     }
