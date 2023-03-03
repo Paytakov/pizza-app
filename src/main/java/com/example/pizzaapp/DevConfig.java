@@ -2,10 +2,13 @@ package com.example.pizzaapp;
 
 import com.example.pizzaapp.model.Ingredient;
 import com.example.pizzaapp.model.Pizza;
+import com.example.pizzaapp.model.User;
 import com.example.pizzaapp.model.enums.Type;
 import com.example.pizzaapp.repository.IngredientRepository;
 import com.example.pizzaapp.repository.PizzaRepository;
+import com.example.pizzaapp.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -15,10 +18,17 @@ public class DevConfig implements CommandLineRunner {
 
     private IngredientRepository ingredientRepository;
     private PizzaRepository pizzaRepository;
+    private UserRepository userRepository;
+    private PasswordEncoder encoder;
 
-    public DevConfig(IngredientRepository ingredientRepository, PizzaRepository pizzaRepository) {
+    public DevConfig(IngredientRepository ingredientRepository,
+                     PizzaRepository pizzaRepository,
+                     UserRepository userRepository,
+                     PasswordEncoder encoder) {
         this.ingredientRepository = ingredientRepository;
         this.pizzaRepository = pizzaRepository;
+        this.userRepository = userRepository;
+        this.encoder = encoder;
     }
 
 
@@ -62,9 +72,9 @@ public class DevConfig implements CommandLineRunner {
 
 
 
-//        userRepository.save(new User("habuma", encoder.encode("password"),
-//                "Craig Walls", "123 North Street", "Cross Roads", "TX",
-//                "76227", "123-123-1234"));
+        userRepository.save(new User("paitaka", encoder.encode("password"),
+                "Emil Paytakov", "123 North Street", "Chicago", "CH",
+                "76227", "123-123-1234"));
 
         Pizza pizza1 = new Pizza();
         pizza1.setName("Italian dream");
