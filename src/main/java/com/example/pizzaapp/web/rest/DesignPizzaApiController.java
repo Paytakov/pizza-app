@@ -2,8 +2,11 @@ package com.example.pizzaapp.web.rest;
 
 import com.example.pizzaapp.model.Pizza;
 import com.example.pizzaapp.repository.PizzaRepository;
+import com.example.pizzaapp.web.rest.resource.PizzaModel;
+import com.example.pizzaapp.web.rest.resource.PizzaModelAssembler;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/design",
@@ -29,12 +37,12 @@ public class DesignPizzaApiController {
         this.pizzaRepository = pizzaRepository;
     }
 
-    @GetMapping("/recent")
-    public Iterable<Pizza> recentPizzas() {
-        PageRequest page = PageRequest.of(
-                0, 12, Sort.by("createdAt").descending());
-        return pizzaRepository.findAll(page).getContent();
-    }
+//    @GetMapping("/recent")
+//    public Iterable<Pizza> recentPizzas() {
+//        PageRequest page = PageRequest.of(
+//                0, 12, Sort.by("createdAt").descending());
+//        return pizzaRepository.findAll(page).getContent();
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Pizza> pizzaById(@PathVariable("id") Long id) {
@@ -49,5 +57,21 @@ public class DesignPizzaApiController {
     @ResponseStatus(HttpStatus.CREATED)
     public Pizza createPizza(@RequestBody Pizza pizza) {
         return pizzaRepository.save(pizza);
+    }
+
+    @GetMapping("/recent")
+    public CollectionModel<PizzaModel> recentPizzasH() {
+        PageRequest page = PageRequest.of(
+                0, 12, Sort.by("createdAt").descending());
+        Iterable<Pizza> pizzas = pizzaRepository.findAll(page).getContent();
+
+        CollectionModel<PizzaModel> pizzaModels =
+                new PizzaModelAssembler().toCollectionModel(pizzas);
+
+        pizzaModels.add(
+                linkTo(methodOn(DesignPizzaApiController.class).recentPizzasH())
+                        .withRel("recents"));
+
+        return pizzaModels;
     }
 }
