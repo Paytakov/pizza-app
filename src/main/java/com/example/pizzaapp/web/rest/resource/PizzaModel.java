@@ -1,21 +1,27 @@
 package com.example.pizzaapp.web.rest.resource;
 
-import com.example.pizzaapp.model.Ingredient;
 import com.example.pizzaapp.model.Pizza;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
-import java.util.Date;
-import java.util.List;
+import org.springframework.hateoas.server.core.Relation;
 
+import java.util.Date;
+
+@Relation(value = "pizza", collectionRelation = "pizzas")
 public class PizzaModel extends RepresentationModel<PizzaModel> {
+
+    private static final IngredientModelAssembler ingredientAssembler =
+            new IngredientModelAssembler();
 
     private final String name;
     private final Date createdAt;
-    private final List<Ingredient> ingredients;
+    private final CollectionModel<IngredientModel> ingredients;
 
     public PizzaModel(Pizza pizza) {
         this.name = pizza.getName();
         this.createdAt = pizza.getCreatedAt();
-        this.ingredients = pizza.getIngredients();
+        this.ingredients =
+                ingredientAssembler.toCollectionModel(pizza.getIngredients());
     }
 
     public String getName() {
@@ -26,7 +32,7 @@ public class PizzaModel extends RepresentationModel<PizzaModel> {
         return createdAt;
     }
 
-    public List<Ingredient> getIngredients() {
+    public CollectionModel<IngredientModel> getIngredients() {
         return ingredients;
     }
 }
