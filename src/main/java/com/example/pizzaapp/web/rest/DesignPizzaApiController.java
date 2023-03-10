@@ -56,19 +56,19 @@ public class DesignPizzaApiController {
         return pizzaRepository.save(pizza);
     }
 
-    @GetMapping("/recent")
-    public CollectionModel<PizzaModel> recentPizzasH() {
-        PageRequest page = PageRequest.of(
-                0, 12, Sort.by("createdAt").descending());
-        Iterable<Pizza> pizzas = pizzaRepository.findAll(page).getContent();
-
-        CollectionModel<PizzaModel> pizzaModels =
-                new PizzaModelAssembler().toCollectionModel(pizzas);
-
-        pizzaModels.add(
-                linkTo(methodOn(DesignPizzaApiController.class).recentPizzasH())
-                        .withRel("recents"));
-
-        return pizzaModels;
-    }
+//    @GetMapping("/recent")
+//    public CollectionModel<PizzaModel> recentPizzasH() {
+//        PageRequest page = PageRequest.of(
+//                0, 12, Sort.by("createdAt").descending());
+//        Iterable<Pizza> pizzas = pizzaRepository.findAll(page).getContent();
+//
+//        CollectionModel<PizzaModel> pizzaModels =
+//                new PizzaModelAssembler().toCollectionModel(pizzas);
+//
+//        pizzaModels.add(
+//                linkTo(methodOn(DesignPizzaApiController.class).recentPizzasH())
+//                        .withRel("recents"));
+//
+//        return pizzaModels;
+//    }
 }
